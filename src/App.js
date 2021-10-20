@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react'
+import {Provider} from 'react-redux'
+import configureStore from './store'
+import { PersistGate } from 'redux-persist/integration/react'
+import Todo from './screen/Todo'
+import Post from './screen/Post'
+import PostDetail from './screen/PostDetail'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 function App() {
+  const store=configureStore()
+  console.log(store,"todo")
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     <Provider store={store.store}>
+        <PersistGate loading={null} persistor={store.persistor}>
+        <div className="App">
+        <Router>
+         <Switch>
+          <Route exact path="/"  component={Post}/>
+           <Route path="/post/:id"  component={PostDetail}/>
+          </Switch>
+        </Router>
+        </div>
+      </PersistGate>
+     </Provider>
   );
 }
 
