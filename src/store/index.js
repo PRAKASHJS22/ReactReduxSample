@@ -7,6 +7,14 @@ import thunk from 'redux-thunk';
 import reducer from '../reducer'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from '../saga'
+
+// const storage = createSensitiveStorage({
+//     keychainService: "myKeychain",
+//     sharedPreferencesName: "mySharedPrefs"
+//   });
+
 const persistConfig = {
     key: 'root',
     storage,
@@ -15,9 +23,12 @@ const persistConfig = {
    
 
 const persistedReducer = persistReducer(persistConfig, reducer)
+
+const sagaMiddleware = createSagaMiddleware()
 //composeWithDevTools(applyMiddleware(logger))
 export default () => {
-    let store = createStore(persistedReducer,applyMiddleware(thunk,logger))
+    let store = createStore(persistedReducer,applyMiddleware(sagaMiddleware,thunk,logger))
     let persistor = persistStore(store)
+    sagaMiddleware.run(rootSaga)
     return { store, persistor }
   }

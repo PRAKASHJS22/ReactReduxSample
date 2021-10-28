@@ -7,8 +7,9 @@ const AddPost=()=>{
     const dispatch = useDispatch()
     const [post,setPost]=useState('')
     const callPostApi=()=>{
-        dispatch(createpost(post))
-        setPost('')
+        if(!post) return
+            dispatch(createpost(post))
+            setPost('')
     }
     const clearall=()=>{
         dispatch(clearAll());

@@ -11,7 +11,12 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import UseReducer from './screen/UseReducer'
+import ContextApp from './hook'
 function App() {
+  // return(
+  //   <UseReducer/>
+  // )
   const store=configureStore()
   console.log(store,"todo")
   return (
